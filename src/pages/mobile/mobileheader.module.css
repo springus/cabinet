@@ -34,7 +34,7 @@ nav#gnb_wrap {
   left: 0px;
   top: 0px;
   overflow: scroll;
-  z-index: 2;
+  z-index: 5555;
   background:#f2f2f2;
 }
 
@@ -58,7 +58,7 @@ div#login_wrap {
   /* background: #005B4A; */
 }
 
-p#login_text {
+p.login_text {
   width: 100%;
   height: 50px;
   margin-bottom: 20px;
@@ -104,6 +104,7 @@ ul#gnb_inner>li {
   position: relative;
   left: 0px;
   top: 0px;
+  -webkit-transition: 0.4s ease;
 }
 
 ul#gnb_inner>li:last-child {
@@ -115,11 +116,11 @@ ul#gnb_inner>li>i {
   position: absolute;
   right: 30px;
   top: 20px;
-  transition: 0.4 ease;
 }
 
 ul#gnb_inner>li.selected i {
-  transform:rotate(90deg)
+  transform:rotate(90deg);
+  -webkit-transition: 0.3s ease;
 }
 
 ul#gnb_inner_list {
@@ -161,5 +162,5 @@ div#graylayer {
   position: fixed;
   left: 0px;
   top: 0px;
-  z-index: 1;
+  z-index: 4444;
 }

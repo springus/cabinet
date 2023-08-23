@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function MobileMainLayout({children}) {
   return (
-    <div style={{minHeight:"2000px"}}>
+    <div style={{minHeight:"1000px"}}>
 
       {children}
 

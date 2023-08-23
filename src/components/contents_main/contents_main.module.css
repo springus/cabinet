@@ -30,10 +30,17 @@ ul#daily_best_inner {
   padding-top: 20px;
   box-sizing: border-box;
   display: flex;
-  flex-wrap: wrap;
   flex-direction: row;
   justify-content: space-around;
   align-content: center;
+  overflow:hidden;
+}
+
+ul#daily_best_inner>li{
+  padding-top:65px;
+  box-sizing:border-box;
+  margin-left:65px;
+
 }
 
 ul#daily_best_inner img{

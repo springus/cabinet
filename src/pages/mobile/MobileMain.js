@@ -13,7 +13,7 @@ export default function MobileMain() {
       <MobileRecommend/>
       <MobileCatchBook />
       <MobileAd />
-      <MobileBestGenre />
+      {/* <MobileBestGenre /> */}
       <MobileMovieBook />
     </div>
   )

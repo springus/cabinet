@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styles from './mobileheader.module.css'
 import { gsap } from 'gsap'
 import { Link } from 'react-router-dom'
+import { useAuthContext } from '../../context/AuthContext'
+import { login, logout } from '../../api/firebase'
 
 export default function MobileHeader() {
 
@@ -41,14 +43,7 @@ export default function MobileHeader() {
     },
 
     {
-      index: 2, name: "이벤트/쿠폰", pathName: '/', gnbInnerList: [
-        {
-          index: 0, name: "이벤트", pathName: '/'
-        },
-        {
-          index: 1, name: "쿠폰", pathName: '/'
-        }
-      ]
+      index: 2, name: "장바구니", pathName: '/mobileproductlist', gnbInnerList: []
     },
 
     {
@@ -65,41 +60,47 @@ export default function MobileHeader() {
   const closeBtn = useRef()
   const grayLayer = useRef()
 
-  let selectedMenu = useMemo(() => (null), [])
+  // let selectedMenu = useMemo(() => (null), [])
 
-  let closeHeight = useMemo(() => (50))
+  let closeHeight = useMemo(() => (50),[])
   // let openHeight = useMemo(() => (null))
 
   useEffect(() => {
     grayLayer.current.style.display = "none"
-    gnbWrap.current.style.right = "-70vw"
+    gnbWrap.current.style.left = "-70vw"
     gnbWrap.current.style.display = "none"
   }, [])
 
   const menuOpen = useCallback(() => {
     gsap.set('html,body', { overflow: "hidden" })
-    grayLayer.current.style.display = "block"
     gnbWrap.current.style.display = "block"
+    grayLayer.current.style.display = "block"
+    gsap.to(gnbWrap.current, {left:0, duration:0.4, ease:'power1.out'})
   }, [])
 
   const menuClose = useCallback(() => {
-    grayLayer.current.style.display = "none"
-    gsap.to(gnbWrap.current, { right: "-70vw", duration: 2, ease: "power1.out" })
-    // gnbWrap.current.style.right = "-70vw"
-    gnbWrap.current.style.display = "none"
     gsap.set('html,body', { overflow: "visible" })
+    gsap.to(gnbWrap.current, { left: '-70vw', duration: 0.4, ease: "power1.out", onComplete:()=>{
+      grayLayer.current.style.display = "none"
+      gnbWrap.current.style.display = "none"
+    } })
 
-    if (selectedMenu !== null) {
-      selectedMenu.classList.remove(`${styles.selected}`)
-      gsap.to(selectedMenu, { height: closeHeight, duration: 1, ease: "power1.out" })
-      selectedMenu = null
-    }
+    // if (selectedMenu !== null) {
+    //   selectedMenu.classList.remove(`${styles.selected}`)
+    //   gsap.to(selectedMenu, { height: closeHeight, duration: 1, ease: "power1.out" })
+    //   selectedMenu = null
+    // }
 
-    setClickIndex()
+    // setClickIndex()
 
   }, [])
 
   const [clickIndex, setClickIndex] = useState(null)
+
+  const { user } = useAuthContext()
+
+  // console.log(user)
+
 
 
   return (
@@ -110,7 +111,12 @@ export default function MobileHeader() {
           <h2 className='hidden'>전체메뉴</h2>
           <span id={styles.close_btn} ref={closeBtn} onClick={menuClose}><i className="fa-solid fa-xmark"></i></span>
           <div id={styles.login_wrap}>
-            <p id={styles.login_text}>로그인 하기</p>
+            {
+              user ?
+                <p className={styles.login_text} onClick={logout}>로그아웃</p>
+                :
+                <p className={styles.login_text} onClick={login}>로그인 하기</p>
+            }
             <p className={styles.login_guide}>회원가입<i className="fa-solid fa-chevron-right"></i></p>
             <p className={styles.login_guide}>비회원 배송조회<i className="fa-solid fa-chevron-right"></i></p>
           </div>
@@ -119,12 +125,12 @@ export default function MobileHeader() {
               {
                 gnbInner.map((item) => (
                   <li key={item.index} className={`${item.index === clickIndex && styles.selected}`} style={item.index === clickIndex ? { height: closeHeight + (closeHeight * item.gnbInnerList.length) } : { height: closeHeight }} onClick={() => {
-                    setClickIndex(item.index)
+                    setClickIndex(item.index === clickIndex ? '' : item.index)
                     item.index = null
                   }}>
                     {item.gnbInnerList < 1 ?
                       <>
-                        {item.name}
+                        <Link to={item.pathName} onClick={()=>{menuClose()}}>{item.name}</Link>
                       </>
                       :
                       <>
@@ -133,17 +139,14 @@ export default function MobileHeader() {
                         <ul id={styles.gnb_inner_list}>
                           {
                             item.gnbInnerList.map((item) => (
-                              <li key={item.index}>{item.name}</li>
+                              <li key={item.index}><Link to={item.pathName} onClick={()=>{menuClose()}}>{item.name}</Link></li>
                             ))
                           }
                         </ul>
                       </>
                     }
                   </li>
-
-
                 ))
-
               }
               {/* <li>
             신간 도서

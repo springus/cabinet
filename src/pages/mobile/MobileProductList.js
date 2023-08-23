@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import styles from './mobileproductlist.module.css'
 import useProducts from '../../hooks/useProducts'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
+import regExp from '../../utile/regExp'
 
 export default function MobileProductList() {
 
@@ -16,34 +17,46 @@ export default function MobileProductList() {
   ]
 
   const categoryInner = useRef()
-  const allClickIndex = useRef()
   const clickIndex = useRef()
+  // const allClickIndex = useRef()
 
-  let clickCategory = useMemo(() => (false), [])
+  // let clickCategory = useMemo(() => (false), [])
 
-  const openCategory = useCallback(() => {
-    // if (clickCategory !== true) {
-    //   gsap.set(categoryInner.current, { overflow: "visible" })
-    //   clickCategory = true
-    // } else {
-    //   gsap.set(categoryInner.current, { overflow: "hidden" })
-    //   clickCategory = false
-    // }
+  // const openCategory = useCallback(() => {
+  //   // if (clickCategory !== true) {
+  //   //   gsap.set(categoryInner.current, { overflow: "visible" })
+  //   //   clickCategory = true
+  //   // } else {
+  //   //   gsap.set(categoryInner.current, { overflow: "hidden" })
+  //   //   clickCategory = false
+  //   // }
 
-    clickCategory !== true && gsap.set(categoryInner.current, { overflow: "visible" })
+  //   // clickCategory !== true && gsap.set(categoryInner.current, { overflow: "visible" })
 
-  })
+  //   if (clickCategory !== true) {
+  //     gsap.set(categoryInner.current, { overflow: "visible" })
+  //     clickCategory = true
+  //   } else {
+  //     clickCategory = false
+  //     gsap.set(categoryInner.current, { overflow: "hidden" })
+  //   }
 
-  const allClick = useCallback(()=>{
-    
+  // })
 
-  })
+  // const closeCategory = useCallback(() => {
+
+  // })
 
   const [selectCategoryThema, setSelectCategoryThema] = useState(categoryThema[0].text)
 
   const [selectItems, setSelectItems] = useState([])
 
   const navigate = useNavigate()
+
+  // useEffect(()=>{
+  //   const categoryHeight = useMemo(()=>(30))
+  //   selectCategoryThema === categoryThema({text}) && gsap.set(categoryInner.current, {height:categoryInner.current*categoryHeight})
+  // })
 
   useEffect(() => {
     if (selectCategoryThema === "전체") {
@@ -54,8 +67,13 @@ export default function MobileProductList() {
     }
   }, [products, selectCategoryThema])
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
+
   return (
     <section id={styles.basket_wrap}>
+      <span id={styles.backpage}><Link to='/'><i className="fa-solid fa-arrow-left"></i></Link></span>
       <h2>장바구니</h2>
       <div id={styles.basket_category}>
         <span id={styles.basket_category_title}>카테고리</span>
@@ -65,14 +83,14 @@ export default function MobileProductList() {
               <li key={item.index} onClick={() => {
                 setSelectCategoryThema(item.text)
                 //console.log(selectCategoryThema)
-              }}>{item.text}</li>
+              }} className={`${item.text === selectCategoryThema && styles.selected}`}>{item.text}</li>
             ))
           }
         </ul>
-        <button onClick={openCategory}><i className="fa-solid fa-sort-down"></i></button>
+        {/* <button onClick={openCategory}><i className="fa-solid fa-sort-down"></i></button> */}
       </div>
       <div id={styles.basket_select_wrap}>
-        <input id={styles.select_check} type='checkbox' ref={allClickIndex} onClick={allClick} />
+        <input id={styles.select_check} type='checkbox'/>
         <p id={styles.select_all}>전체 선택</p>
         <p id={styles.select_delete}>선택 삭제</p>
       </div>
@@ -85,13 +103,20 @@ export default function MobileProductList() {
               }}>
                 <div id={styles.basket_list_wrap}>
                   <input type='checkbox' ref={clickIndex} />
-                  <img src={item.images} alt='책제목' />
-                  <span id={styles.basket_list_title}>{ }</span>
-                  <span id={styles.basket_list_author}></span>
-                  <span id={styles.basket_list_publish}></span>
-                  <span id={styles.basket_list_day}></span>
-                  {/* <button id={styles.basket_list_detail}></button> */}
-                  <p id={styles.basket_list_text}></p>
+                  <div id={styles.basket_list_img}>
+                    <img src={item.images} alt='책제목' />
+                  </div>
+                  <div id={styles.basket_list_box}>
+                    <p id={styles.basket_list_title}>{item.title}</p>
+                    <p>저자: {item.name}</p>
+                    <p>출판사: {item.publish}</p>
+                    <p>발행일: {item.date}</p>
+                    <p id={styles.basket_list_cost}>정가: <span id={styles.basket_cost_num}>{regExp.comma(item.cost)}원</span></p>
+                    <p id={styles.basket_list_price}>판매가: <span id={styles.basket_price_num}>{regExp.comma(item.price)}원</span></p>
+                    {/* <button id={styles.basket_list_detail}></button> */}
+                  </div>
+                  <p id={styles.basket_list_text}>{item.text}</p>
+                  <span id={styles.close_btn}><i className="fa-solid fa-xmark"></i></span>
                 </div>
               </li>
             ))
