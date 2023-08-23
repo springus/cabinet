@@ -27,9 +27,9 @@ export default function MobileProductDetail() {
       //setBookcards(Object.keys(response.bookcard).map(item => response.bookcard[item]))
       setBookcards(Object.values(response.bookcard))
 
-      
-      
-      
+
+
+
       //console.log("test", Object.values(response.bookcard))
 
 
@@ -149,7 +149,7 @@ export default function MobileProductDetail() {
 
               // Object.keys(productItem.bookcard).map((item) => productItem.bookcard[item])
 
-              bookcards.map((item ,index) => (
+              bookcards.map((item, index) => (
                 <SwiperSlide>{item.index}<img src={item.images} alt="책제목" /></SwiperSlide>
               ))
 

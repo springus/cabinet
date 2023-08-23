@@ -87,10 +87,10 @@ export default function ProductDetail() {
         <section id={styles.bookcard}>
           <h3 className={styles.book_intro_text}>북카드</h3>
           <ul id={styles.bookcard_inner}>
-            <li><img src='/images/bookcard_img00.gif' alt='북카드' /></li>
-            <li><img src='/images/bookcard_img01.gif' alt='북카드' /></li>
-            <li><img src='/images/bookcard_img02.gif' alt='북카드' /></li>
-            <li><img src='/images/bookcard_img03.gif' alt='북카드' /></li>
+            <li><img src='/images/bookcard0_img00.gif' alt='북카드' /></li>
+            <li><img src='/images/bookcard0_img01.gif' alt='북카드' /></li>
+            <li><img src='/images/bookcard0_img02.gif' alt='북카드' /></li>
+            <li><img src='/images/bookcard0_img03.gif' alt='북카드' /></li>
           </ul>
         </section>
         <section id={styles.book_intro_wrap}>
@@ -114,7 +114,7 @@ export default function ProductDetail() {
             <p id={styles.publish_text_bottom}>비가 온 뒤 피어나는 무지개처럼</p>
           </div>
           <div id={styles.intro_publish_img}>
-            <img src='/images/bookcard_img00.gif' alt='북카드' />
+            <img src='/images/bookcard0_img00.gif' alt='북카드' />
           </div>
         </section>
       </section>

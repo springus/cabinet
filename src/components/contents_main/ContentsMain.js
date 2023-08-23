@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import styles from './contents_main.module.css'
 import { Link } from 'react-router-dom'
 import useProducts from '../../hooks/useProducts'
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+
 
 export default function ContentsMain() {
 
@@ -22,16 +25,29 @@ export default function ContentsMain() {
         <h3 id={styles.daily_best_title}><Link to='/'>오늘의 도서</Link></h3>
         <ul id={styles.daily_best_inner}>
 
-          {
-            bestSeller.map((item) => (
-              <li key={item.id}>
-                <Link>
-                  <img src={item.images} alt='책소개' />
-                  <p className={styles.daily_books}>{item.title}</p>
-                </Link>
-              </li>
-            ))
-          }
+          <>
+            <Swiper
+              slidesPerView={4}
+              spaceBetween={20}
+              // pagination={{
+              //   clickable: true,
+              // }}
+              modules={[Pagination]}
+              className="mySwiper"
+            >
+              {
+                bestSeller.map((item) => (
+                  <SwiperSlide><li key={item.id}>
+                    <img src={item.images} alt='책소개' />
+                    <p className={styles.daily_books}>{item.title}</p>
+                  </li></SwiperSlide>
+                ))
+              }
+            </Swiper>
+          </>
+
+
+
 
         </ul>
         <span id={styles.daily_more}><Link to='/'>더 보기</Link></span>
@@ -46,6 +62,6 @@ export default function ContentsMain() {
           </Link>
         </dl>
       </div>
-    </section>
+    </section >
   )
 }
